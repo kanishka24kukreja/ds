@@ -1,0 +1,337 @@
+#include <iostream> 
+
+#include <algorithm> // for sorting 
+
+using namespace std; 
+
+ 
+
+ 
+
+// Function to calculate the sum of elements in an array 
+
+int sumOfArray(const int arr[], int size) { 
+
+    int sum = 0; 
+
+    for (int i = 0; i < size; ++i) { 
+
+        sum += arr[i]; 
+
+    } 
+
+    return sum; 
+
+} 
+
+ 
+
+ 
+
+// Function to find the largest and smallest numbers in an array 
+
+void findMinMax(const int arr[], int size, int& smallest, int& largest) { 
+
+    smallest = arr[0]; 
+
+    largest = arr[0]; 
+
+ 
+
+ 
+
+    for (int i = 1; i < size; ++i) { 
+
+        if (arr[i] < smallest) { 
+
+            smallest = arr[i]; 
+
+        } else if (arr[i] > largest) { 
+
+            largest = arr[i]; 
+
+        } 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+// Function to insert an element at a particular position in an array 
+
+void insertElement(int arr[], int& size, int position, int value, const int MAX_SIZE) { 
+
+    if (size >= MAX_SIZE) { 
+
+        cout << "Array is full. Cannot insert more elements."; 
+
+        return; 
+
+    } 
+
+ 
+
+ 
+
+    if (position < 0 || position > size) { 
+
+        cout << "Invalid position for insertion."; 
+
+        return; 
+
+    } 
+
+ 
+
+ 
+
+    // Shift elements to make space for the new element 
+
+    for (int i = size - 1; i >= position; --i) { 
+
+        arr[i + 1] = arr[i]; 
+
+    } 
+
+ 
+
+ 
+
+    // Insert the new element 
+
+    arr[position] = value; 
+
+    ++size; 
+
+} 
+
+ 
+
+ 
+
+// Function to delete an element from a particular position in an array 
+
+void deleteElement(int arr[], int& size, int position) { 
+
+    if (position < 0 || position >= size) { 
+
+        cout << "Invalid position for deletion."; 
+
+        return; 
+
+    } 
+
+ 
+
+ 
+
+    // Shift elements to fill the gap left by the deleted element 
+
+    for (int i = position; i < size - 1; ++i) { 
+
+        arr[i] = arr[i + 1]; 
+
+    } 
+
+ 
+
+ 
+
+    --size; 
+
+} 
+
+ 
+
+ 
+
+// Function to sort an array in ascending order 
+
+void sortArray(int arr[], int size) { 
+
+    sort(arr, arr + size); 
+
+} 
+
+ 
+
+ 
+
+// Function to search for an element in an array 
+
+int searchArray(const int arr[], int size, int target) { 
+
+    for (int i = 0; i < size; ++i) { 
+
+        if (arr[i] == target) { 
+
+            return i; // Element found at index i 
+
+        } 
+
+    } 
+
+    return -1; // Element not found 
+
+} 
+
+ 
+
+ 
+
+int main() { 
+
+    const int MAX_SIZE = 100; 
+
+    int arr[MAX_SIZE]; 
+
+    int size = 0; // Current size of the array 
+
+    int choice; 
+
+ 
+
+ 
+
+    do { 
+
+        cout << "\nArray Operations Menu:"; 
+
+        cout << "\nCurrent Array: "; 
+
+        for (int i = 0; i < size; ++i) { 
+
+            cout << arr[i] << " "; 
+
+        } 
+
+        cout << "\n1. Sum of Elements"; 
+
+        cout << "\n2. Find Largest and Smallest"; 
+
+        cout << "\n3. Insert Element"; 
+
+        cout << "\n4. Delete Element"; 
+
+        cout << "\n5. Sort Array"; 
+
+        cout << "\n6. Search Array"; 
+
+        cout << "\n7. Exit"; 
+
+        cout << "\nEnter your choice: "; 
+
+        cin >> choice; 
+
+ 
+
+ 
+
+        switch (choice) { 
+
+            case 1: 
+
+                cout << "Sum of array elements: " << sumOfArray(arr, size); 
+
+                break; 
+
+            case 2: 
+
+                int smallest, largest; 
+
+                findMinMax(arr, size, smallest, largest); 
+
+                cout << "Smallest element: " << smallest << "\nLargest element: " << largest; 
+
+                break; 
+
+            case 3: 
+
+                int insertPosition, insertValue; 
+
+                cout << "Enter position for insertion: "; 
+
+                cin >> insertPosition; 
+
+                cout << "Enter value to insert: "; 
+
+                cin >> insertValue; 
+
+                insertElement(arr, size, insertPosition, insertValue, MAX_SIZE); 
+
+                cout << "Element inserted successfully."; 
+
+                break; 
+
+            case 4: 
+
+                int deletePosition; 
+
+                cout << "Enter position for deletion: "; 
+
+                cin >> deletePosition; 
+
+                deleteElement(arr, size, deletePosition); 
+
+                cout << "Element deleted successfully."; 
+
+                break; 
+
+            case 5: 
+
+                sortArray(arr, size); 
+
+                cout << "Array sorted in ascending order."; 
+
+                break; 
+
+            case 6: 
+
+                int searchTarget; 
+
+                cout << "Enter element to search: "; 
+
+                cin >> searchTarget; 
+
+                int searchResult = searchArray(arr, size, searchTarget); 
+
+                if (searchResult != -1) 
+
+                    cout << "Element found at index: " << searchResult; 
+
+                else 
+
+                    cout << "Element not found in the array."; 
+
+                break; 
+
+            case 7: 
+
+                cout << "Exiting program."; 
+
+                break; 
+
+            default: 
+
+                cout << "Invalid choice!"; 
+
+        } 
+
+ 
+
+ 
+
+    } while (choice != 7); 
+
+ 
+
+ 
+
+    return 0; 
+
+} 
+
+ 
