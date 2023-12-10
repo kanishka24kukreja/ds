@@ -1,0 +1,306 @@
+#include <iostream> 
+
+#include <vector> 
+
+using namespace std; 
+
+ 
+
+ 
+
+// factorial using recursion 
+
+int factorial(int n) { 
+
+    if (n == 0 || n == 1) 
+
+        return 1; 
+
+    else 
+
+        return n * factorial(n - 1); 
+
+} 
+
+ 
+
+ 
+
+// Fibonacci series using recursion 
+
+int fibonacci(int n) { 
+
+    if (n <= 1) 
+
+        return n; 
+
+    else 
+
+        return fibonacci(n - 1) + fibonacci(n - 2); 
+
+} 
+
+ 
+
+ 
+
+// sum of elements in an array using recursion 
+
+int arraySum(const vector<int>& arr, int index) { 
+
+    if (index < 0) 
+
+        return 0; 
+
+    else 
+
+        return arr[index] + arraySum(arr, index - 1); 
+
+} 
+
+ 
+
+ // power using recursion 
+
+int power(int base, int exponent) { 
+
+    if (exponent == 0) 
+
+        return 1; 
+
+    else 
+
+        return base * power(base, exponent - 1); 
+
+} 
+
+ 
+
+ 
+
+// reverse an array using recursion 
+
+void reverse(vector<int>& A, int low, int high) { 
+
+    if (low >= high) 
+
+        return; 
+
+    else { 
+
+        int temp = A[low]; 
+
+        A[low] = A[high]; 
+
+        A[high] = temp; 
+
+        reverse(A, low + 1, high - 1); 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+//reverse a string using recursion 
+
+string reverseString(const string& str, int index) { 
+
+    if (index < 0 || index >= str.length()) 
+
+        return ""; 
+
+    else 
+
+        return str[index] + reverseString(str, index - 1); 
+
+} 
+//binary search using recursion 
+
+int binarySearch(const vector<int>& arr, int target, int low, int high) { 
+
+    if (low > high) 
+
+        return -1; 
+
+ 
+
+ 
+
+    int mid = (low + high) / 2; 
+
+ 
+
+ 
+
+    if (arr[mid] == target) 
+
+        return mid; 
+
+    else if (arr[mid] > target) 
+
+        return binarySearch(arr, target, low, mid - 1); 
+
+    else 
+
+        return binarySearch(arr, target, mid + 1, high); 
+
+} 
+
+ 
+
+ 
+
+int main() { 
+
+    int choice; 
+
+    vector<int> arr; 
+
+    string str; 
+
+ 
+
+ 
+
+    do { 
+
+        cout << "\nRecursion in Data Structures Menu:"; 
+
+        cout << "\n1. Factorial"; 
+
+        cout << "\n2. Fibonacci Series"; 
+
+        cout << "\n3. Sum of Arrays"; 
+
+        cout << "\n4. Power Function"; 
+
+        cout << "\n5. Reverse String"; 
+
+        cout << "\n6. Binary Search"; 
+
+        cout << "\n7. Exit"; 
+
+        cout << "\nEnter your choice: "; 
+
+        cin >> choice; 
+
+ 
+
+ 
+
+        switch (choice) { 
+
+            case 1: 
+
+                int num; 
+
+                cout << "Enter a number to calculate factorial: "; 
+
+                cin >> num; 
+
+                cout << "Factorial of " << num << ": " << factorial(num); 
+
+                break; 
+
+            case 2: 
+
+                int fib; 
+
+                cout << "Enter the number of terms for Fibonacci series: "; 
+
+                cin >> fib; 
+
+                cout << "Fibonacci Series: "; 
+
+                for (int i = 0; i < fib; ++i) 
+
+                    cout << fibonacci(i) << " "; 
+
+                break; 
+
+            case 3: 
+
+                int size; 
+
+                cout << "Enter the size of the array:";
+                cin >> size; 
+
+                arr.resize(size); 
+
+                cout << "Enter the elements of the array: "; 
+
+                for (int i = 0; i < size; ++i) 
+
+                    cin >> arr[i]; 
+
+                cout << "Sum of the array: " << arraySum(arr, size - 1); 
+
+                break; 
+
+            case 4: 
+
+                int base, exponent; 
+
+                cout << "Enter base and exponent: "; 
+
+                cin >> base >> exponent; 
+
+                cout << "Result of power function: " << power(base, exponent); 
+
+                break; 
+
+            case 5: 
+
+                cout << "Enter a string to reverse: "; 
+
+                cin >> str; 
+
+                cout << "Reversed string: " << reverseString(str, str.length() - 1); 
+
+                break; 
+
+            case 6: 
+
+                int target; 
+
+                cout << "Enter the target element: "; 
+
+                cin >> target; 
+
+                cout << "Enter sorted array elements: "; 
+
+                for (int i = 0; i < size; ++i) 
+
+                    cin >> arr[i]; 
+
+                cout << "Index of " << target << " using binary search: " 
+
+                     << binarySearch(arr, target, 0, size - 1); 
+
+                break; 
+
+            case 7: 
+
+                cout << "Exiting program."; 
+
+                break; 
+
+            default: 
+
+                cout << "Invalid choice!"; 
+
+        } 
+        } while (choice != 7); 
+
+ 
+
+ 
+
+    return 0; 
+
+} 
+
+ 
