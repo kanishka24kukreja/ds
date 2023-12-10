@@ -1,0 +1,168 @@
+#include <iostream> 
+
+using namespace std; 
+
+class node { 
+    string element; 
+    node *next; 
+    node *prev; 
+
+public: 
+    node(const string &e = "", node *n = nullptr, node *p = nullptr) { 
+        element = e; 
+        next = n; 
+        prev = p; 
+    } 
+
+    friend class dllist; 
+}; 
+
+class dllist { 
+    node *head; 
+
+public: 
+    dllist() { 
+        head = nullptr; 
+    } 
+
+    void insertFront(const string &a) { 
+        node *p = new node(a, head, nullptr); 
+        if (head != nullptr) { 
+            head->prev = p; 
+        } 
+        head = p; 
+    } 
+
+    void insertEnd(const string &a) { 
+        node *p = new node(a, nullptr, nullptr); 
+        if (head == nullptr) { 
+            head = p; 
+        } else { 
+            node *q = head; 
+            while (q->next != nullptr) { 
+                q = q->next; 
+            } 
+            q->next = p; 
+            p->prev = q; 
+        } 
+    } 
+
+    void insertAfter(const string &after, const string &a) { 
+        node *q = head; 
+        while (q != nullptr && q->element != after) { 
+            q = q->next; 
+        } 
+        if (q != nullptr) { 
+            node *p = new node(a, q->next, q); 
+            if (q->next != nullptr) { 
+                q->next->prev = p; 
+            } 
+            q->next = p; 
+        } else { 
+            cout << "Element not found." << endl; 
+        } 
+    } 
+
+    void removeFront() { 
+        if (head != nullptr) { 
+            node *temp = head; 
+            head = head->next; 
+            if (head != nullptr) { 
+                head->prev = nullptr; 
+            } 
+            delete temp; 
+        } else { 
+            cout << "List is empty. Cannot remove from the front." << endl; 
+        } 
+    } 
+
+    void removeEnd() { 
+        if (head != nullptr) { 
+            node *q = head; 
+            while (q->next != nullptr) { 
+                q = q->next; 
+            } 
+            if (q->prev != nullptr) { 
+                q->prev->next = nullptr; 
+            } else { 
+                head = nullptr; 
+            } 
+            delete q; 
+        } else { 
+            cout << "List is empty. Cannot remove from the end." << endl; 
+        } 
+    } 
+
+    void displaylist() { 
+        node *q = head; 
+        while (q != nullptr) { 
+            cout << q->element << " "; 
+            q = q->next; 
+        } 
+        cout << endl; 
+    } 
+};
+
+int main() { 
+    dllist obj1; 
+    int choice; 
+    string element, afterElement; 
+
+    do { 
+        cout << "\nDoubly Linked List Menu:\n"; 
+        cout << "1. Insert at Front\n"; 
+        cout << "2. Insert at End\n"; 
+        cout << "3. Insert After\n"; 
+        cout << "4. Remove from Front\n"; 
+        cout << "5. Remove from End\n"; 
+        cout << "6. Display List\n"; 
+        cout << "0. Exit\n"; 
+        cout << "Enter your choice: "; 
+        cin >> choice; 
+
+        switch (choice) { 
+            case 1: 
+                cout << "Enter element to insert at front: "; 
+                cin >> element; 
+                obj1.insertFront(element); 
+                break; 
+
+            case 2: 
+                cout << "Enter element to insert at end: "; 
+                cin >> element; 
+                obj1.insertEnd(element); 
+                break; 
+
+            case 3: 
+                cout << "Enter element to insert after: "; 
+                cin >> afterElement; 
+                cout << "Enter new element: "; 
+                cin >> element; 
+                obj1.insertAfter(afterElement, element); 
+                break; 
+
+            case 4: 
+                obj1.removeFront(); 
+                break; 
+
+            case 5: 
+                obj1.removeEnd(); 
+                break; 
+
+            case 6: 
+                cout << "Doubly Linked List elements: "; 
+                obj1.displaylist(); 
+                break; 
+
+            case 0: 
+                cout << "Exiting the program.\n"; 
+                break; 
+
+            default: 
+                cout << "Invalid choice. Please try again.\n"; 
+        } 
+
+    } while (choice != 0); 
+
+    return 0; 
+}
