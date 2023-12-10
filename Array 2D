@@ -1,0 +1,271 @@
+#include <iostream> 
+
+using namespace std; 
+
+ 
+
+ 
+
+const int ROWS = 3; 
+
+const int COLS = 3; 
+
+ 
+
+ 
+
+void displayArray(int arr[][COLS], int rows) { 
+
+    for (int i = 0; i < rows; i++) { 
+
+        for (int j = 0; j < COLS; j++) { 
+
+            cout << arr[i][j] << " "; 
+
+        } 
+
+        cout << endl; 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+void mergeArrays(int arr1[][COLS], int arr2[][COLS], int merged[][COLS], int rows) { 
+
+    for (int i = 0; i < rows; i++) { 
+
+        for (int j = 0; j < COLS; j++) { 
+
+            merged[i][j] = arr1[i][j] + arr2[i][j]; 
+
+        } 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+void concatenateArrays(int arr1[][COLS], int arr2[][COLS], int concatenated[][COLS], int rows) { 
+
+    for (int i = 0; i < rows; i++) { 
+
+        for (int j = 0; j < COLS; j++) { 
+
+            concatenated[i][j] = arr1[i][j]; 
+
+        } 
+
+    } 
+
+ 
+
+ 
+
+    for (int i = 0; i < rows; i++) { 
+
+        for (int j = 0; j < COLS; j++) { 
+
+            concatenated[i + rows][j] = arr2[i][j]; 
+
+        } 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+void addArrays(int arr1[][COLS], int arr2[][COLS], int sum[][COLS], int rows) { 
+
+    for (int i = 0; i < rows; i++) { 
+
+        for (int j = 0; j < COLS; j++) { 
+
+            sum[i][j] = arr1[i][j] + arr2[i][j]; 
+
+        } 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+void subtractArrays(int arr1[][COLS], int arr2[][COLS], int difference[][COLS], int rows) { 
+
+    for (int i = 0; i < rows; i++) { 
+
+        for (int j = 0; j < COLS; j++) { 
+
+            difference[i][j] = arr1[i][j] - arr2[i][j]; 
+
+        } 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+void multiplyArrays(int arr1[][COLS], int arr2[][COLS], int result[][COLS], int rows1, int cols1, int rows2, int cols2) { 
+
+    if (cols1 != rows2) { 
+
+        cout << "Invalid dimensions for matrix multiplication." << endl; 
+
+        return; 
+
+    } 
+
+ 
+
+ 
+
+    for (int i = 0; i < rows1; i++) { 
+
+        for (int j = 0; j < cols2; j++) { 
+
+            result[i][j] = 0; 
+
+            for (int k = 0; k < cols1; k++) { 
+
+                result[i][j] += arr1[i][k] * arr2[k][j]; 
+
+            } 
+
+        } 
+
+    } 
+
+} 
+
+ 
+
+ 
+
+int main() { 
+
+    int arr1[ROWS][COLS]; 
+
+    int arr2[ROWS][COLS]; 
+
+    int merged[ROWS][COLS]; 
+
+    int concatenated[2 * ROWS][COLS]; 
+
+    int sum[ROWS][COLS]; 
+
+    int difference[ROWS][COLS]; 
+
+    int product[ROWS][COLS]; 
+
+ 
+
+ 
+
+    cout << "Enter elements for the first array:" << endl; 
+
+    for (int i = 0; i < ROWS; i++) 
+
+        for (int j = 0; j < COLS; j++) 
+
+            cin >> arr1[i][j]; 
+
+ 
+
+ 
+
+    cout << "Enter elements for the second array:" << endl; 
+
+    for (int i = 0; i < ROWS; i++) 
+
+        for (int j = 0; j < COLS; j++) 
+
+            cin >> arr2[i][j]; 
+
+ 
+
+ 
+
+    cout << "\nOperations Menu:"; 
+
+    cout << "\n1. Merge Arrays"; 
+
+    cout << "\n2. Concatenate Arrays"; 
+
+    cout << "\n3. Add Arrays"; 
+
+    cout << "\n4. Subtract Arrays"; 
+
+    cout << "\n5. Multiply Arrays"; 
+
+    cout << "\nEnter your choice: "; 
+
+ 
+
+ 
+
+    int choice; 
+
+    cin >> choice; 
+
+ 
+
+ 
+
+    switch (choice) { 
+
+        case 1: 
+
+            mergeArrays(arr1, arr2, merged, ROWS); 
+
+            cout << "\nMerged Array:\n"; 
+
+            displayArray(merged, ROWS); 
+
+            break; 
+
+        case 2: 
+
+            concatenateArrays(arr1, arr2, concatenated, ROWS); 
+
+            cout << "\nConcatenated Array:\n"; 
+
+            displayArray(concatenated, 2 * ROWS); 
+
+            break; 
+
+        case 3: 
+
+            addArrays(arr1, arr2, sum, ROWS); 
+
+            cout << "\nSum of Arrays:\n"; 
+
+            displayArray(sum, ROWS); 
+
+            break; 
+
+        case 4: 
+
+            subtractArrays(arr1, arr2, difference, ROWS); 
+
+            cout << "\nDifference of Arrays:\n"; 
+
+            displayArray(difference, ROWS); 
+
+            break; 
+
+ 
