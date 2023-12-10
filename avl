@@ -1,0 +1,102 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+template<class T>
+class Mystack {
+    T* s;
+    int capacity, n, top;
+
+public:
+    Mystack(int c) {
+        capacity = c;
+        s = new T[capacity];
+        top = -1, n = 0;
+    }
+
+    int size() {
+        return n;
+    }
+
+    bool isempty() {
+        return (top == -1);
+    }
+
+    bool isfull() {
+        return (top == capacity - 1);
+    }
+
+    void push(T e) {
+        if (isfull()) {
+            cout << "Stack is full." << endl;
+        }
+        else {
+            top++;
+            s[top] = e;
+            n++;
+        }
+    }
+
+    T pop() {
+        if (isempty()) {
+            cout << "Stack is empty." << endl;
+            return T(); // Return default value for type T (assuming T has a default constructor)
+        }
+        else {
+            T elem = s[top];
+            top--;
+            n--;
+            return elem;
+        }
+    }
+
+    T topelement() {
+        return s[top];
+    }
+};
+
+int evaluatePostfixExpression(const string& expression) {
+    Mystack<int> stack(expression.length());
+
+    for (char ch : expression) {
+        if (isdigit(ch)) {
+            stack.push(ch - '0');
+        }
+        else {
+            int operand2 = stack.pop();
+            int operand1 = stack.pop();
+
+            switch (ch) {
+            case '+':
+                stack.push(operand1 + operand2);
+                break;
+            case '-':
+                stack.push(operand1 - operand2);
+                break;
+            case '*':
+                stack.push(operand1 * operand2);
+                break;
+            case '/':
+                stack.push(operand1 / operand2);
+                break;
+            }
+        }
+    }
+
+    return stack.pop();
+}
+
+int main() {
+    string postfixExpression;
+
+    cout << "Enter a postfix expression: ";
+    getline(cin, postfixExpression);
+
+    int result = evaluatePostfixExpression(postfixExpression);
+
+    cout << "Result of the postfix expression: " << result << endl;
+
+    return 0;
+}
