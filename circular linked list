@@ -1,0 +1,203 @@
+#include <iostream>
+using namespace std;
+
+class node {
+    string element;
+    node *next;
+
+public:
+    node(const string &e = "", node *ptr = nullptr) {
+        element = e;
+        next = ptr;
+    }
+
+    friend class circlelist;
+};
+
+class circlelist {
+    node *head;
+
+public:
+    circlelist() {
+        head = nullptr;
+    }
+
+    void insert(const string &a) {
+        node *p = new node(a);
+        if (head == nullptr) {
+            head = p;
+            p->next = head;
+        } else {
+            p->next = head;
+            head = p;
+        }
+    }
+
+    void insertAtEnd(const string &a) {
+        node *p = new node(a);
+        if (head == nullptr) {
+            head = p;
+            p->next = head;
+        } else {
+            node *temp = head;
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+            temp->next = p;
+            p->next = head;
+        }
+    }
+
+    void displayList() {
+        if (head == nullptr) {
+            cout << "List is empty." << endl;
+            return;
+        }
+
+        node *q = head;
+        do {
+            cout << q->element << " ";
+            q = q->next;
+        } while (q != head);
+        cout << endl;
+    }
+
+    void deleteNode(const string &key) {
+        if (head == nullptr) {
+            cout << "List is empty." << endl;
+            return;
+        }
+
+        node *current = head, *prev = nullptr;
+
+        if (head->element == key) {
+            while (current->next != head) {
+                current = current->next;
+            }
+            if (head == head->next) {
+                delete head;
+                head = nullptr;
+            } else {
+                current->next = head->next;
+                delete head;
+                head = current->next;
+            }
+        } else {
+            do {
+                prev = current;
+                current = current->next;
+            } while (current != head && current->element != key);
+
+            if (current == head) {
+                cout << "Element not found in the list." << endl;
+            } else {
+                prev->next = current->next;
+                delete current;
+            }
+        }
+    }
+
+    node *search(const string &key) {
+        if (head == nullptr) {
+            cout << "List is empty." << endl;
+            return nullptr;
+        }
+
+        node *current = head;
+        do {
+            if (current->element == key) {
+                return current;
+            }
+            current = current->next;
+        } while (current != head);
+
+        cout << "Element not found in the list." << endl;
+        return nullptr;
+    }
+
+    void reverseList() {
+        if (head == nullptr || head->next == head) {
+            cout << "List is empty or has only one element." << endl;
+            return;
+        }
+
+        node *prev = nullptr, *current = head, *nextNode = nullptr;
+
+        do {
+            nextNode = current->next;
+            current->next = prev;
+            prev = current;
+            current = nextNode;
+        } while (current != head);
+
+        head->next = prev;
+        head = prev;
+    }
+};
+
+int main() {
+    circlelist obj1;
+
+    int choice;
+    string element, key;
+
+    do {
+        cout << "\nCircular Linked List Menu:\n";
+        cout << "1. Insert at the beginning\n";
+        cout << "2. Insert at the end\n";
+        cout << "3. Display list\n";
+        cout << "4. Delete a node\n";
+        cout << "5. Search for an element and return its pointer\n";
+        cout << "6. Reverse list\n";
+        cout << "7. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter element to insert at the beginning: ";
+                cin >> element;
+                obj1.insert(element);
+                break;
+
+            case 2:
+                cout << "Enter element to insert at the end: ";
+                cin >> element;
+                obj1.insertAtEnd(element);
+                break;
+
+            case 3:
+                cout << "Circular Linked List: ";
+                obj1.displayList();
+                break;
+
+            case 4:
+                cout << "Enter element to delete: ";
+                cin >> key;
+                obj1.deleteNode(key);
+                break;
+
+            case 5:
+                cout << "Enter element to search: ";
+                cin >> key;
+                node *result = obj1.search(key);
+                if (result != nullptr) {
+                    cout << "Element found at address: " << result << endl;
+                }
+                break;
+
+            case 6:
+                cout << "Reversing the list...\n";
+                obj1.reverseList();
+                break;
+
+            case 7:
+                cout << "Exiting the program.\n";
+                break;
+
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 7);
+
+    return 0;
