@@ -1,0 +1,191 @@
+#include <iostream>
+using namespace std;
+
+class node {
+    string element;
+    node *next;
+
+public:
+    node(const string &e = "", node *ptr = nullptr) {
+        element = e;
+        next = ptr;
+    }
+
+    friend class llist;
+};
+
+class llist {
+    node *head;
+
+public:
+    llist() {
+        head = nullptr;
+    }
+
+    void insertAtBeginning(const string &a) {
+        node *p = new node(a);
+        if (head == nullptr) {
+            head = p;
+        } else {
+            p->next = head;
+            head = p;
+        }
+    }
+
+    void insertAtPosition(const string &a, int position) {
+        if (position < 0) {
+            cout << "Invalid position. Position should be non-negative." << endl;
+            return;
+        }
+
+        node *p = new node(a);
+        if (head == nullptr) {
+            if (position == 0) {
+                head = p;
+            } else {
+                cout << "Invalid position. List is empty." << endl;
+                delete p;
+            }
+        } else {
+            if (position == 0) {
+                p->next = head;
+                head = p;
+            } else {
+                node *current = head;
+                for (int i = 0; i < position - 1 && current != nullptr; i++) {
+                    current = current->next;
+                }
+
+                if (current == nullptr) {
+                    cout << "Invalid position. Position exceeds the size of the list." << endl;
+                    delete p;
+                } else {
+                    p->next = current->next;
+                    current->next = p;
+                }
+            }
+        }
+    }
+
+    void removeFromBeginning() {
+        if (head == nullptr) {
+            cout << "List is empty. Cannot remove from the beginning." << endl;
+        } else {
+            node *temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+
+    void removeFromPosition(int position) {
+        if (position < 0) {
+            cout << "Invalid position. Position should be non-negative." << endl;
+            return;
+        }
+
+        if (head == nullptr) {
+            cout << "List is empty. Cannot remove from the specified position." << endl;
+            return;
+        }
+
+        if (position == 0) {
+            node *temp = head;
+            head = head->next;
+            delete temp;
+        } else {
+            node *current = head;
+            node *previous = nullptr;
+
+            for (int i = 0; i < position && current != nullptr; i++) {
+                previous = current;
+                current = current->next;
+            }
+
+            if (current == nullptr) {
+                cout << "Invalid position. Position exceeds the size of the list." << endl;
+            } else {
+                previous->next = current->next;
+                delete current;
+            }
+        }
+    }
+
+    node *searchElement(const string &searchElem) {
+        node *current = head;
+        while (current != nullptr && current->element != searchElem) {
+            current = current->next;
+        }
+
+        return current;
+    }
+
+    void displayList() {
+        node *q = head;
+        while (q != nullptr) {
+            cout << q->element << " ";
+            q = q->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    llist obj1;
+    int choice, position;
+    string newElem, existingElem;
+
+    do {
+        cout << "\n1. Insert at the beginning"
+             << "\n2. Insert at a position"
+             << "\n3. Remove from the beginning"
+             << "\n4. Remove from a position"
+             << "\n5. Search for an element"
+             << "\n6. Display the list"
+             << "\n0. Exit\n";
+
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter element to insert at the beginning: ";
+                cin >> newElem;
+                obj1.insertAtBeginning(newElem);
+                break;
+            case 2:
+                cout << "Enter element to insert: ";
+                cin >> newElem;
+                cout << "Enter position to insert at: ";
+                cin >> position;
+                obj1.insertAtPosition(newElem, position);
+                break;
+            case 3:
+                obj1.removeFromBeginning();
+                break;
+            case 4:
+                cout << "Enter position to remove from: ";
+                cin >> position;
+                obj1.removeFromPosition(position);
+                break;
+            case 5:
+                cout << "Enter element to search: ";
+                cin >> existingElem;
+                if (obj1.searchElement(existingElem) != nullptr) {
+                    cout << "Element found in the list." << endl;
+                } else {
+                    cout << "Element not found in the list." << endl;
+                }
+                break;
+            case 6:
+                obj1.displayList();
+                break;
+            case 0:
+                cout << "Exiting program." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please enter a valid option." << endl;
+        }
+    } while (choice != 0);
+
+    return 0;
+}
