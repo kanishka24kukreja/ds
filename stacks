@@ -1,0 +1,104 @@
+#include <iostream>
+using namespace std;
+
+template<class T>
+class Mystack {
+    T* s;
+    int capacity, n, top;
+public:
+    Mystack(int c) {
+        capacity = c;
+        s = new T[capacity];
+        top = -1, n = 0;
+    }
+
+    int size() {
+        return n;
+    }
+
+    bool isempty() {
+        return (top == -1);
+    }
+
+    bool isfull() {
+        return (top == capacity - 1);
+    }
+
+    void push(T e) {
+        if (isfull()) {
+            cout << "Stack is full." << endl;
+        } else {
+            top++;
+            s[top] = e;
+            n++;
+        }
+    }
+
+    T pop() {
+        if (isempty()) {
+            cout << "Stack is empty." << endl;
+            return T(); // Return default value for type T (assuming T has a default constructor)
+        } else {
+            T elem = s[top];
+            top--;
+            n--;
+            return elem;
+        }
+    }
+
+    T topelement() {
+        return s[top];
+    }
+};
+
+int main() {
+    int capacity;
+    cout << "Enter the capacity of the stack: ";
+    cin >> capacity;
+
+    Mystack<int> obj(capacity);
+
+    int choice, value;
+    do {
+        cout << "\nMenu:\n1. Push\n2. Pop\n3. Top Element\n4. Stack Size\n5. Is Empty\n6. Is Full\n0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to push: ";
+                cin >> value;
+                obj.push(value);
+                break;
+
+            case 2:
+                cout << "Pop: " << obj.pop() << endl;
+                break;
+
+            case 3:
+                cout << "Top element: " << obj.topelement() << endl;
+                break;
+
+            case 4:
+                cout << "Stack size: " << obj.size() << endl;
+                break;
+
+            case 5:
+                cout << "Is Empty: " << (obj.isempty() ? "Yes" : "No") << endl;
+                break;
+
+            case 6:
+                cout << "Is Full: " << (obj.isfull() ? "Yes" : "No") << endl;
+                break;
+
+            case 0:
+                cout << "Exiting program." << endl;
+                break;
+
+            default:
+                cout << "Invalid choice. Please enter a valid option." << endl;
+        }
+    } while (choice != 0);
+
+    return 0;
+}
