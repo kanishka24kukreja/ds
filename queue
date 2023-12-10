@@ -1,0 +1,118 @@
+#include <iostream>
+using namespace std;
+
+template<class T>
+class myque {
+    T* Q;
+    int f, r, capacity, n;
+
+public:
+    myque(int c) {
+        capacity = c;
+        Q = new T[capacity];
+        n = 0; f = r = 0;
+    }
+
+    bool isEmpty() {
+        return (n == 0);
+    }
+
+    bool isFull() {
+        return (n == capacity);
+    }
+
+    T size() {
+        return (n);
+    }
+
+    void Qinsert(T e) {
+        if (isFull()) {
+            cout << "Queue is full." << endl;
+        } else {
+            Q[r] = e;
+            r = (r + 1) % capacity;
+            n++;
+        }
+    }
+
+    T Qdelete() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return T();
+        } else {
+            T e = Q[f];
+            if (f == r) {
+                f = r = 0;
+            } else {
+                f = (f + 1) % capacity;
+            }
+            n--;
+            return e;
+        }
+    }
+
+    void display() {
+        cout << "Elements in the queue: ";
+        for (int i = f; i != r; i = (i + 1) % capacity) {
+            cout << Q[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    int num;
+    cout << "Enter the capacity of the queue: ";
+    cin >> num;
+
+    myque<int> obj(num);
+    int choice, ele;
+
+    do {
+        cout << "\nMenu:\n1. Enqueue\n2. Dequeue\n3. Queue Size\n4. Is Empty\n5. Is Full\n0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                if (!obj.isFull()) {
+                    cout << "Enter element to enqueue: ";
+                    cin >> ele;
+                    obj.Qinsert(ele);
+                } else {
+                    cout << "Queue is full. Cannot enqueue." << endl;
+                }
+                break;
+
+            case 2:
+                if (!obj.isEmpty()) {
+                    cout << "Dequeued element: " << obj.Qdelete() << endl;
+                } else {
+                    cout << "Queue is empty. Cannot dequeue." << endl;
+                }
+                break;
+
+            case 3:
+                cout << "Queue size: " << obj.size() << endl;
+                break;
+
+            case 4:
+                cout << "Is Empty: " << (obj.isEmpty() ? "Yes" : "No") << endl;
+                break;
+
+            case 5:
+                cout << "Is Full: " << (obj.isFull() ? "Yes" : "No") << endl;
+                break;
+
+            case 0:
+                cout << "Exiting program." << endl;
+                break;
+
+            default:
+                cout << "Invalid choice. Please enter a valid option." << endl;
+        }
+        obj.display();
+    } while (choice != 0);
+
+    return 0;
+}
